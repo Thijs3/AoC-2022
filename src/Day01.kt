@@ -16,5 +16,4 @@ fun main() { // ktlint-disable filename
     val input = readElvenWeights("Day01_input")
     println(part1(input))
     println(part2(input))
-    println(input)
 }
