@@ -8,11 +8,11 @@ fun main() {
             .takeLast(3)
             .sum()
 
-    val testInput = readElvenWeights("Day01_test")
+    val testInput = readElvenCalories("Day01_test")
     check(part1(testInput) == 24000)
     check(part2(testInput) == 45000)
 
-    val input = readElvenWeights("Day01_input")
+    val input = readElvenCalories("Day01_input")
     println(part1(input))
     println(part2(input))
 }

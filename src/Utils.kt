@@ -8,7 +8,7 @@ import java.security.MessageDigest
 fun readInput(name: String) = File("src", "$name.txt")
     .readLines()
 
-fun readElvenWeights(name: String): List<List<Int>> = readInput(name)
+fun readElvenCalories(name: String): List<List<Int>> = readInput(name)
     .joinToString(separator = "") { if (it == "") "." else "$it," }
     .split(".")
     .map { s ->
