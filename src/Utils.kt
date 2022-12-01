@@ -12,7 +12,11 @@ fun readElvenWeights(name: String): List<List<Int>> = readInput(name)
     .joinToString(separator = "") { if (it == "") "." else "$it," }
     .split(".")
     .map { s ->
-        s.split(",").map { item -> if (item == "") 0 else item.toInt() }
+        s.split(",")
+            .mapNotNull { item ->
+                if (item == "") null
+                else item.toInt()
+            }
     }
 
 /**

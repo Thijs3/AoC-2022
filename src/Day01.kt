@@ -1,4 +1,4 @@
-fun main() { // ktlint-disable filename
+fun main() {
     fun part1(input: List<List<Int>>): Int =
         input.maxOf { elf -> elf.sum() }
 
@@ -8,7 +8,6 @@ fun main() { // ktlint-disable filename
             .takeLast(3)
             .sum()
 
-    // test if implementation meets criteria from the description, like:
     val testInput = readElvenWeights("Day01_test")
     check(part1(testInput) == 24000)
     check(part2(testInput) == 45000)
