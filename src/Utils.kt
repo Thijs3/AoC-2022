@@ -19,6 +19,9 @@ fun readElvenCalories(name: String): List<List<Int>> = readInput(name)
             }
     }
 
+fun readRockPaperScissors(name: String): List<Pair<String, String>> =
+    readInput(name).map { line -> Pair(line.split(" ")[0], line.split(" ")[1]) }
+
 /**
  * Converts string to md5 hash.
  */
