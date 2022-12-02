@@ -8,15 +8,14 @@ import java.security.MessageDigest
 fun readInput(name: String) = File("src", "$name.txt")
     .readLines()
 
-fun readElvenCalories(name: String): List<List<Int>> = readInput(name)
-    .joinToString(separator = "") { if (it == "") "." else "$it," }
-    .split(".")
-    .map { s ->
-        s.split(",")
-            .mapNotNull { item ->
-                if (item == "") null
-                else item.toInt()
-            }
+fun readElvenCalories(name: String): List<List<Int>> = File("src", "$name.txt")
+    .readText()
+    .split("\n\n")
+    .map { elf ->
+        elf.split("\n")
+            .map { calories ->
+            calories.toInt()
+        }
     }
 
 fun readRockPaperScissors(name: String): List<Pair<String, String>> =
