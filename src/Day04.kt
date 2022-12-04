@@ -4,14 +4,14 @@ fun main() {
     fun IntRange.overlaps(other: IntRange) = !(first > other.last || last < other.first)
 
     fun part1(input: List<Pair<IntRange, IntRange>>): Int =
-        input.filter { pair ->
+        input.count { pair ->
             pair.first.contains(pair.second) || pair.second.contains(pair.first)
-        }.size
+        }
 
     fun part2(input: List<Pair<IntRange, IntRange>>): Int =
-        input.filter { pair ->
+        input.count { pair ->
             pair.first.overlaps(pair.second)
-        }.size
+        }
 
     val testInput = readAssignments("Day04_test")
     check(part1(testInput) == 2)
