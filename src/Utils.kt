@@ -21,6 +21,12 @@ fun readElvenCalories(name: String): List<List<Int>> = File("src", "$name.txt")
 fun readRockPaperScissors(name: String): List<Pair<String, String>> =
     readInput(name).map { line -> Pair(line.split(" ")[0], line.split(" ")[1]) }
 
+fun readAssignments(name: String): List<Pair<IntRange,IntRange>> = readInput(name)
+    .map { line -> line.split(",") }.map { elves ->
+        Pair(elves.first().split("-").let { it.first().toInt()..it.last().toInt() },
+            elves.last().split("-").let {it.first().toInt()..it.last().toInt()})
+    }
+
 /**
  * Converts string to md5 hash.
  */
