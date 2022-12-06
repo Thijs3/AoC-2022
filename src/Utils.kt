@@ -2,7 +2,8 @@ import java.io.File
 import java.math.BigInteger
 import java.security.MessageDigest
 
-fun readInput(name: String) = File("src", "$name.txt")
+fun readInputString(name: String) = File("src", "$name.txt").readText()
+fun readInputLines(name: String) = File("src", "$name.txt")
     .readLines()
 
 fun readElvenCalories(name: String): List<List<Int>> = File("src", "$name.txt")
@@ -15,7 +16,7 @@ fun readElvenCalories(name: String): List<List<Int>> = File("src", "$name.txt")
         }
     }
 
-fun readRockPaperScissors(name: String): List<Pair<String, String>> = readInput(name)
+fun readRockPaperScissors(name: String): List<Pair<String, String>> = readInputLines(name)
     .map { line ->
         line.split(" ")
             .let { game ->
@@ -23,7 +24,7 @@ fun readRockPaperScissors(name: String): List<Pair<String, String>> = readInput(
             }
     }
 
-fun readAssignments(name: String): List<Pair<IntRange,IntRange>> = readInput(name)
+fun readAssignments(name: String): List<Pair<IntRange,IntRange>> = readInputLines(name)
     .map { line ->
         line.split(",")
     }.map { elves ->
