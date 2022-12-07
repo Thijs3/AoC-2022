@@ -1,3 +1,4 @@
+typealias Commands = List<List<String>>
 fun main() {
     data class File(val name: String, val size: Long)
 
@@ -6,15 +7,10 @@ fun main() {
         val files: MutableList<File> = mutableListOf()
         var size: Long = 0
 
-        fun addFile(name: String, size: Long) = if (files.none { it.name == name }) {
-            files.add(File(name, size))
-        } else {
-            throw Error("trying to add file with duplicate name")
-        }
         fun calculateSizeOfAllNested(): Long {
-            val s = files.sumOf { it.size } + children.sumOf { it.calculateSizeOfAllNested() }
-            size = s
-            return s
+            val size = files.sumOf { it.size } + children.sumOf { it.calculateSizeOfAllNested() }
+            this.size = size
+            return size
         }
     }
     class FileSystem {
@@ -24,7 +20,7 @@ fun main() {
         fun changeDirectory(name: String) {
             currentDirectory = when (name) {
                 "/" -> root
-                ".." -> currentDirectory.parent ?: throw Error("not able to change to parent of directory $currentDirectory with no parent")
+                ".." -> currentDirectory.parent ?: throw Error("Can't switch to null")
                 else -> currentDirectory.children.first { directory ->
                     directory.name == name
                 }
@@ -40,20 +36,28 @@ fun main() {
             getAllDirectoriesRec(root)
             return directories.toList()
         }
+    }
 
-        fun executeCommands(commands: List<List<String>>) {
-            commands.forEach { command ->
+    var currentFileSystem = FileSystem()
+
+    fun Commands.execute(): FileSystem {
+        val fileSystem = FileSystem()
+        with(fileSystem) {
+            forEach { command ->
                 when (command[0]) {
                     "dir" -> if (currentDirectory.children.none { it.name == command[1] }) createDirectory(command[1])
                     "$" -> if (command[1] == "cd") changeDirectory(command[2])
-                    else -> currentDirectory.addFile(command[1], command[0].toLong())
+                    else -> currentDirectory.files.add(File(command[1], command[0].toLong()))
                 }
             }
             root.calculateSizeOfAllNested()
         }
+        currentFileSystem = fileSystem
+        return fileSystem
     }
 
-    fun part1(fileSystem: FileSystem): Long = fileSystem
+    fun part1(commands: Commands): Long = commands
+        .execute()
         .flatMapDirectories()
         .filter { it.size <= 100000L }
         .sumOf { it.size }
@@ -64,13 +68,12 @@ fun main() {
         .sorted()
         .first { it > 30000000L - (70000000L - fileSystem.root.size) }
 
-    val testCommands = readInputWords("Day07_test")
-    val testInput = FileSystem().also { it.executeCommands(testCommands) }
+    val testInput = readInputWords("Day07_test")
     check(part1(testInput) == 95437L)
-    check(part2(testInput) == 24933642L)
+    check(part2(currentFileSystem) == 24933642L)
 
-    val commands = readInputWords("Day07_input")
-    val input = FileSystem().also { it.executeCommands(commands) }
+    val input = readInputWords("Day07_input")
     println(part1(input))
-    println(part2(input))
+    println(part2(currentFileSystem))
 }
+
