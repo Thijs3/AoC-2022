@@ -1,6 +1,8 @@
 fun main() {
-    val itemTypePriorities: Map<Char,Int> = ((('a'..'z').toList() + ('A'..'Z').toList())
-        .zip(1..52) )
+    val itemTypePriorities: Map<Char, Int> = (
+        (('a'..'z').toList() + ('A'..'Z').toList())
+            .zip(1..52)
+        )
         .toMap()
 
     fun Char.toPriority(): Int = itemTypePriorities.getOrDefault(this, 0)
@@ -13,7 +15,7 @@ fun main() {
     fun List<String>.findBadge(): Char = first()
         .first { char ->
             2 < sumOf { rucksack -> rucksack.contains(char).compareTo(false) }
-    }
+        }
 
     fun part1(input: List<String>): Int = input
         .sumOf { items ->

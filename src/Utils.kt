@@ -6,14 +6,20 @@ fun readInputString(name: String) = File("src", "$name.txt").readText()
 fun readInputLines(name: String) = File("src", "$name.txt")
     .readLines()
 
+fun readInputWords(name: String) = File("src", "$name.txt")
+    .readLines()
+    .map { line ->
+        line.split(" ")
+    }
+
 fun readElvenCalories(name: String): List<List<Int>> = File("src", "$name.txt")
     .readText()
     .split("\n\n")
     .map { elf ->
         elf.split("\n")
             .map { calories ->
-            calories.toInt()
-        }
+                calories.toInt()
+            }
     }
 
 fun readRockPaperScissors(name: String): List<Pair<String, String>> = readInputLines(name)
@@ -24,15 +30,15 @@ fun readRockPaperScissors(name: String): List<Pair<String, String>> = readInputL
             }
     }
 
-fun readAssignments(name: String): List<Pair<IntRange,IntRange>> = readInputLines(name)
+fun readAssignments(name: String): List<Pair<IntRange, IntRange>> = readInputLines(name)
     .map { line ->
         line.split(",")
     }.map { elves ->
         elves.first().split("-").let { it.first().toInt()..it.last().toInt() } to
-            elves.last().split("-").let {it.first().toInt()..it.last().toInt()}
+            elves.last().split("-").let { it.first().toInt()..it.last().toInt() }
     }
 
-fun readCargo(name: String): Cargo =  File("src", "$name.txt")
+fun readCargo(name: String): Cargo = File("src", "$name.txt")
     .readText()
     .split("\n\n")
     .map { it.split("\n") }

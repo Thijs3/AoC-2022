@@ -1,10 +1,10 @@
-data class CraneMove (
+data class CraneMove(
     val amount: Int,
     val from: Int,
     val to: Int
 )
 
-class Cargo (
+class Cargo(
     private val stacks: MutableList<String>,
     private val moves: List<CraneMove>
 ) {
@@ -20,7 +20,6 @@ class Cargo (
     }
 }
 fun main() {
-
     fun part1(cargo: Cargo): String {
         cargo.executeAllMoves9000()
         return cargo.stackTops()

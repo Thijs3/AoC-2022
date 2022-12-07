@@ -1,6 +1,6 @@
 fun main() {
     fun calculateScore(game: Pair<String, String>): Int =
-        when(game) {
+        when (game) {
             Pair("A", "X") -> 4
             Pair("A", "Y") -> 8
             Pair("A", "Z") -> 3
@@ -14,7 +14,7 @@ fun main() {
         }
 
     fun Pair<String, String>.transformToOriginalStrategy(): Pair<String, String> =
-        when(this) {
+        when (this) {
             Pair("A", "X") -> Pair("A", "Z")
             Pair("A", "Y") -> Pair("A", "X")
             Pair("A", "Z") -> Pair("A", "Y")

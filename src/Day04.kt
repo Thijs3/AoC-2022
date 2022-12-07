@@ -15,7 +15,7 @@ fun main() {
 
     val testInput = readAssignments("Day04_test")
     check(part1(testInput) == 2)
-    check(part2(testInput) == 4 )
+    check(part2(testInput) == 4)
 
     val input = readAssignments("Day04_input")
     println(part1(input))
