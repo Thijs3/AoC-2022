@@ -1,4 +1,4 @@
-typealias Commands = List<List<String>>
+private typealias Commands = List<List<String>>
 fun main() {
     data class File(val name: String, val size: Long)
 
