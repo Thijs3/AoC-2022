@@ -46,6 +46,14 @@ fun readCargo(name: String): Cargo = File("src", "$name.txt")
         Cargo(stacks.toMutableList(), moves.toMoves())
     }
 
+fun readIntGrid(name: String) = readInputLines(name)
+    .map { line ->
+        line.toList()
+            .map { value ->
+                value.toString().toInt()
+            }
+    }.let { IntGrid(it) }
+
 fun List<String>.toMoves(): List<CraneMove> = map { line ->
     line.split(" ")
         .let { (amount, from, to) ->
@@ -56,3 +64,11 @@ fun List<String>.toMoves(): List<CraneMove> = map { line ->
 fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray()))
     .toString(16)
     .padStart(32, '0')
+
+abstract class Grid<T>(val rows: List<List<T>>) {
+    val cols: List<List<T>> = List(rows[0].size) { c ->
+        List(rows.size) { r -> rows[r][c] }
+    }
+}
+
+class IntGrid(rows: List<List<Int>>) : Grid<Int>(rows)
