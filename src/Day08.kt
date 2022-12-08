@@ -1,5 +1,4 @@
 fun main() {
-
     fun IntGrid.isCellVisibleFromLeft(row: Int, col: Int) = rows[row].take(col)
         .all { value -> value < rows[row][col] }
 
@@ -40,7 +39,7 @@ fun main() {
             grid.isCellVisible(row, col)
         }
     }.flatten()
-        .count { it }
+        .count()
 
     fun part2(grid: IntGrid): Long = grid.rows.mapIndexed { row, values ->
         List(values.size) { col ->
