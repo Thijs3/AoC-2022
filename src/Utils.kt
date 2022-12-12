@@ -72,3 +72,7 @@ abstract class Grid<T>(val rows: List<List<T>>) {
 }
 
 class IntGrid(rows: List<List<Int>>) : Grid<Int>(rows)
+
+class StringGrid(rows: List<List<String>>) : Grid<String>(rows)
+
+enum class Direction { NORTH, SOUTH, EAST, WEST}
