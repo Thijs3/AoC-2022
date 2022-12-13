@@ -1,15 +1,13 @@
-import java.math.BigInteger
-
 fun main() {
-    class Monkey(startingItems: List<BigInteger>, val rule: (BigInteger) -> BigInteger, val targets: Pair<Int, Int>, val modulus: BigInteger ){
+    class Monkey(startingItems: List<Long>, val rule: (Long) -> Long, val targets: Pair<Int, Int>, val modulus: Long ){
         val items = startingItems.toMutableList()
         var inspectCount = 0L
 
         fun playTurn(monkeys: List<Monkey>) {
             items.forEach { item ->
                 inspectCount += 1L
-                val worry = rule(item) / BigInteger("3")
-                if (worry % modulus == BigInteger.ZERO) monkeys[targets.first].items.add(worry) else monkeys[targets.second].items.add(worry)
+                val worry = rule(item) / 3L
+                if (worry % modulus == 0L) monkeys[targets.first].items.add(worry) else monkeys[targets.second].items.add(worry)
             }
             items.clear()
         }
@@ -17,8 +15,8 @@ fun main() {
         fun playOtherTurn(monkeys: List<Monkey>) {
             items.forEach { item ->
                 inspectCount += 1L
-                val worry = rule(item)
-                if (worry % modulus == BigInteger.ZERO) monkeys[targets.first].items.add(worry) else monkeys[targets.second].items.add(worry)
+                val worry = rule(item) % 9699690L // product of all moduli
+                if (worry % modulus == 0L) monkeys[targets.first].items.add(worry) else monkeys[targets.second].items.add(worry)
             }
             items.clear()
         }
@@ -26,14 +24,14 @@ fun main() {
 
     fun String.toMonkey(): Monkey {
         val lines = split("\n").map { it.trim() }
-        val startingItems = lines[1].split(": ")[1].split(", ").map { it.toBigInteger() }
+        val startingItems = lines[1].split(": ")[1].split(", ").map { it.toLong() }
         val operationValueRaw = lines[2].split(" ").last()
         val operator = lines[2].split(" ")[4]
-        val modulus: BigInteger = lines[3].split(" ").last().toBigInteger()
-        val rule: (BigInteger) -> BigInteger = { worry ->
-            val operationValue = if (operationValueRaw == "old") worry else operationValueRaw.toBigInteger()
+        val modulus: Long = lines[3].split(" ").last().toLong()
+        val rule: (Long) -> Long = { worry ->
+            val operationValue = if (operationValueRaw == "old") worry else operationValueRaw.toLong()
             when (operator) {
-                "*" -> ((worry * operationValue) % BigInteger("9699690")) // product of all moduli
+                "*" -> (worry * operationValue)
                 else -> (worry + operationValue)
             }
         }
@@ -60,7 +58,7 @@ fun main() {
     val testInput = readInputString("Day11_test").toMonkeys()
     val testInputSecond = readInputString("Day11_test").toMonkeys()
     check(part1(testInput) == 10605L)
-    //check(part2(testInputSecond) == 2713310158)
+    //check(part2(testInputSecond) == 2713310158L)
 
     val input = readInputString("Day11_input").toMonkeys()
     val inputSecond = readInputString("Day11_input").toMonkeys()
