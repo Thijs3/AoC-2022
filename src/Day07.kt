@@ -68,9 +68,9 @@ fun main() {
         .sorted()
         .first { it > 30000000L - (70000000L - fileSystem.root.size) }
 
-    val testInput = readInputWords("Day07_test")
-    check(part1(testInput) == 95437L)
-    check(part2(currentFileSystem) == 24933642L)
+    //val testInput = readInputWords("Day07_test")
+    //check(part1(testInput) == 95437L)
+    //check(part2(currentFileSystem) == 24933642L)
 
     val input = readInputWords("Day07_input")
     println(part1(input))

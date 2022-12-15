@@ -48,11 +48,21 @@ fun readCargo(name: String): Cargo = File("src", "$name.txt")
 
 fun readIntGrid(name: String) = readInputLines(name)
     .map { line ->
-        line.toList()
+        line
             .map { value ->
                 value.toString().toInt()
-            }
-    }.let { IntGrid(it) }
+            }.toMutableList()
+    }.toMutableList()
+    .let { IntGrid(it) }
+
+fun readGridFromChars(lines: List<String>): IntGrid = lines
+    .map { line ->
+        line.toList()
+            .map {value ->
+                value.code - 97
+            }.toMutableList()
+    }.toMutableList()
+    .let { IntGrid(it) }
 
 fun List<String>.toMoves(): List<CraneMove> = map { line ->
     line.split(" ")
@@ -65,14 +75,14 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
     .toString(16)
     .padStart(32, '0')
 
-abstract class Grid<T>(val rows: List<List<T>>) {
-    val cols: List<List<T>> = List(rows[0].size) { c ->
-        List(rows.size) { r -> rows[r][c] }
+abstract class Grid<T>(val rows: MutableList<MutableList<T>>) {
+    val cols: MutableList<MutableList<T>> = MutableList(rows[0].size) { c ->
+        MutableList(rows.size) { r -> rows[r][c] }
     }
 }
 
-class IntGrid(rows: List<List<Int>>) : Grid<Int>(rows)
+class IntGrid(rows: MutableList<MutableList<Int>>) : Grid<Int>(rows)
 
-class StringGrid(rows: List<List<String>>) : Grid<String>(rows)
+class StringGrid(rows: MutableList<MutableList<String>>) : Grid<String>(rows)
 
 enum class Direction { NORTH, SOUTH, EAST, WEST}
