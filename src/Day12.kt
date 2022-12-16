@@ -1,4 +1,5 @@
-import java.util.*
+import java.util.Queue
+import java.util.LinkedList
 
 fun main() {
     data class Cell(val row: Int, val col: Int, var depth: Int = 0)
@@ -30,6 +31,26 @@ fun main() {
             Cell(cur.row + 1, cur.col,0) else null
     )
 
+    fun IntGrid.getUnvisitedNeighboursReversed(cur: Cell, visited: List<Cell>): List<Cell> = listOfNotNull(
+        if (!visited.contains(Cell(cur.row,cur.col - 1,0))
+            && cur.col > 0
+            && rows[cur.row][cur.col - 1] - rows[cur.row][cur.col] >= -1)
+            Cell(cur.row,cur.col - 1,0) else null,
+        if (!visited.contains(Cell(cur.row - 1, cur.col,0))
+            && cur.row > 0
+            && rows[cur.row - 1][cur.col] - rows[cur.row][cur.col] >= -1)
+            Cell(cur.row - 1, cur.col,0) else null,
+        if (!visited.contains(Cell(cur.row,cur.col + 1,0))
+            && cur.col < cols.size - 1
+            && rows[cur.row][cur.col + 1] - rows[cur.row][cur.col] >= -1)
+            Cell(cur.row,cur.col + 1,0) else null,
+        if (!visited.contains(Cell(cur.row + 1, cur.col,0))
+            && cur.row < rows.size - 1
+            && rows[cur.row + 1][cur.col] - rows[cur.row][cur.col] >= -1)
+            Cell(cur.row + 1, cur.col,0) else null
+    )
+
+
     fun bfsDistanceToGoal(grid: IntGrid, start: Cell, goal: Cell): Int? {
         val queue: Queue<Cell> = LinkedList()
         val visited = mutableListOf(start)
@@ -47,6 +68,24 @@ fun main() {
         return null
     }
 
+    fun bfsDistancesToGoal(grid: IntGrid, goal: Cell): List<Int> {
+        val queue: Queue<Cell> = LinkedList()
+        val visited = mutableListOf(goal)
+        val distances = mutableListOf(1000)
+        var depth = 0
+        queue.add(goal)
+        while (queue.size !=0) {
+            val cur = queue.remove()
+            if (cur.depth == depth) depth += 1
+            if (grid.rows[cur.row][cur.col] == 0) distances.add(depth - 1)
+            for (n in grid.getUnvisitedNeighboursReversed(cur, visited)) {
+                visited.add(n)
+                queue.add(Cell(n.row, n.col, depth))
+            }
+        }
+        return distances
+    }
+
 
     fun part1(input: List<String>): Int {
         val grid = readGridFromChars(input)
@@ -61,12 +100,7 @@ fun main() {
         val grid = readGridFromChars(input)
         val goal = grid.findFirstIndex(-28)
         grid.rows[goal.row][goal.col] = 25
-        val distances: List<Int> = grid.rows.mapIndexed { row, r ->
-            r.mapIndexed { col, c ->
-                if (c == 0) bfsDistanceToGoal(grid, Cell(row, col), goal) else null
-            }
-        }.flatten()
-            .filterNotNull()
+        val distances: List<Int> = bfsDistancesToGoal(grid, goal)
         return distances.min()
     }
 
